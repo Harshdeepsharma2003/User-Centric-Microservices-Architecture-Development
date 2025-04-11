@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | LocalDeals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4CAF50, #2196F3);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        header {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+
+        .notifications-container {
+            width: 80%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        .notification-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .notification-content {
+            max-width: 75%;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-icon img {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">LocalDeals</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="profile.html">Profile</a>
+            <a href="offers.html">Offers</a>
+        </div>
+    </div>
+</header>
+
+<div class="notifications-container" id="notificationsList">
+    <!-- Notifications will be dynamically added here -->
+</div>
+
+<script>
+    const notifications = [
+    {
+        notificationId: 1,
+        notificationTitle: "Exclusive Deal Nearby!",
+        notificationMessage: "XYZ Store has a 40% discount on electronics near you!",
+        notificationType: "Offer",
+        createdAt: "2025-04-07 21:30",
+        isActive: true,
+        isStarred: false
+    },
+    {
+        notificationId: 2,
+        notificationTitle: "Limited-Time Offer!",
+        notificationMessage: "Get 20% off on travel bookings before midnight!",
+        notificationType: "Reminder",
+        createdAt: "2025-04-07 18:00",
+        isActive: true,
+        isStarred: false
+    },
+    {
+        notificationId: 3,
+        notificationTitle: "Welcome to LocalDeals!",
+        notificationMessage: "Stay tuned for great deals and offers!",
+        notificationType: "General",
+        createdAt: "2025-04-06 10:00",
+        isActive: false,
+        isStarred: false
+    }
+];
+
+function displayNotifications() {
+    const notificationsList = document.getElementById("notificationsList");
+    notificationsList.innerHTML = "";
+
+    notifications.forEach(notification => {
+        const notificationCard = document.createElement("div");
+        notificationCard.className = "notification-card";
+        notificationCard.innerHTML = `
+            <div class="notification-content">
+                <h3>${notification.notificationTitle}</h3>
+                <p>${notification.notificationMessage}</p>
+                <p><strong>Type:</strong> ${notification.notificationType}</p>
+                <span>Received: ${notification.createdAt}</span>
+            </div>
+            <div class="btn-container">
+                <button class="btn-icon delete-btn" onclick="deleteNotification(${notification.notificationId})">
+                    <img src="Assests/delete1.jpg" alt="Delete">
+                </button>
+                <button class="btn-icon star-btn" onclick="toggleStar(${notification.notificationId})">
+                    <img src="${notification.isStarred ? 'Assests/star.png' : 'Assests/star.png'}" alt="Star">
+                </button>
+            </div>
+        `;
+        notificationsList.appendChild(notificationCard);
+    });
+}
+
+function deleteNotification(notificationId) {
+    const index = notifications.findIndex(notification => notification.notificationId === notificationId);
+    if (index !== -1) {
+        notifications.splice(index, 1);
+        displayNotifications();
+    }
+}
+
+function toggleStar(notificationId) {
+    const notification = notifications.find(notification => notification.notificationId === notificationId);
+    if (notification) {
+        notification.isStarred = !notification.isStarred;
+        displayNotifications();
+    }
+}
+
+// Initial display
+displayNotifications();
+
+</script>
+</body>
+</html>
+
+

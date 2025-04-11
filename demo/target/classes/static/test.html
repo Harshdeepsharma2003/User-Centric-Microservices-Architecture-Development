@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Location Tracking | LocalDeals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4CAF50, #2196F3);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+
+        .nav-links a.active {
+            border-bottom: 2px solid white;
+        }
+
+        .content-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 50px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        button {
+            background-color: #FF9800;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #F57C00;
+        }
+
+        p {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">LocalDeals</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="offers.html">Offers</a>
+            <a href="location.html">Location</a>
+            <a href="test.html" class="active">Test</a>
+        </div>
+    </div>
+</header>
+
+<div class="content-box">
+    <h1>Test Location Tracking</h1>
+    <p>Enable location tracking to test the system functionality.</p>
+    <label>
+        <input type="checkbox" id="allowLocation"> I agree to share my location
+    </label>
+    <br><br>
+    <button onclick="getLocation()">Test Location</button>
+    <p id="statusMessage"></p>
+</div>
+
+<script>
+    function getLocation() {
+     const allowLocation = document.getElementById('allowLocation');
+     const statusMessage = document.getElementById('statusMessage');
+
+     if (allowLocation.checked) {
+         if ("geolocation" in navigator) {
+             statusMessage.textContent = "Retrieving location...";
+             navigator.geolocation.getCurrentPosition((position) => {
+                 const { latitude, longitude } = position.coords;
+
+                 // Send coordinates to the backend
+                 fetch('http://localhost:8090/location/track', {
+                     method: 'POST',
+                     headers: {
+                         'Content-Type': 'application/json'
+                     },
+                     body:  JSON.stringify({
+        offerLatitude: position.coords.latitude,
+        offerLongitude: position.coords.longitude
+    })
+                 })
+                 .then(response => response.json())
+                 .then(data => {
+                     statusMessage.textContent = `Location successfully sent: Latitude ${latitude}, Longitude ${longitude}`;
+
+                     // Fetch nearby offers
+                     fetchNearbyOffers(latitude, longitude);
+                 })
+                 .catch(error => {
+                     statusMessage.textContent = "Failed to send location data to the server.";
+                 });
+             }, (error) => {
+                 statusMessage.textContent = "Error retrieving location: " + error.message;
+             });
+         } else {
+             statusMessage.textContent = "Geolocation is not supported by your browser.";
+         }
+     } else {
+         statusMessage.textContent = "Please check the box to allow location tracking.";
+     }
+ }
+
+</script>
+<div id="offersContainer" class="content-box">
+    <h2>Deals Near You</h2>
+    <p id="offersStatus">Fetching offers...</p>
+    <div id="offersList"></div>
+    <div id="paginationControls">
+        <button id="prevPage" onclick="changePage(-1)" disabled>Previous</button>
+        <button id="nextPage" onclick="changePage(1)" disabled>Next</button>
+    </div>
+</div>
+<style>
+#paginationControls {
+margin-top: 20px;
+text-align: center;
+}
+
+#paginationControls button {
+background-color: #FF9800;
+color: white;
+border: none;
+padding: 10px 20px;
+font-size: 14px;
+cursor: pointer;
+border-radius: 5px;
+margin: 0 5px;
+}
+
+#paginationControls button:disabled {
+background-color: #ddd;
+cursor: not-allowed;
+}
+</style>
+<script src="test.js"></script>
+</body>
+</html>

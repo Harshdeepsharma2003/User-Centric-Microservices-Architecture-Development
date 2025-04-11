@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up | LocalDeals</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">LocalDeals</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#features">Features</a>
+            </div>
+        </div>
+    </div>
+</header>
+<br><br><br><br><br>
+
+<section class="auth-section">
+    <div class="container auth-container">
+        <h2 id="form-title">Login</h2>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <input type="email" id="emailLogin" placeholder="Email" required>
+            <input type="password" id="passwordLogin" placeholder="Password" required>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+
+        <!-- Signup Form -->
+        <form id="signupForm" style="display: none;">
+            <input type="text" id="nameSignup" placeholder="Full Name" required>
+            <input type="email" id="emailSignup" placeholder="Email" required>
+            <input type="password" id="newPasswordSignup" placeholder="New Password" required>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+
+        <!-- Toggle Login/Signup -->
+        <p id="toggleMessage">
+            <span id="toggleText">Don't have an account?</span>
+            <a href="#" id="toggleLink">Sign Up</a>
+        </p>
+    </div>
+</section>
+
+<!-- Toggle Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const loginForm = document.getElementById("loginForm");
+        const signupForm = document.getElementById("signupForm");
+        const formTitle = document.getElementById("form-title");
+        const toggleText = document.getElementById("toggleText");
+        const toggleLink = document.getElementById("toggleLink");
+
+        toggleLink.addEventListener("click", function(event) {
+            event.preventDefault();
+
+            if (loginForm.style.display !== "none") {
+                loginForm.style.display = "none";
+                signupForm.style.display = "block";
+                formTitle.textContent = "Sign Up";
+                toggleText.textContent = "Already have an account?";
+                toggleLink.textContent = "Login";
+            } else {
+                loginForm.style.display = "block";
+                signupForm.style.display = "none";
+                formTitle.textContent = "Login";
+                toggleText.textContent = "Don't have an account?";
+                toggleLink.textContent = "Sign Up";
+            }
+        });
+    });
+</script>
+<script src="login.js"></script>
+</body>
+</html>

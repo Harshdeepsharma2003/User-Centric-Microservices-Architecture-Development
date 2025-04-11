@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offers & Deals | LocalDeals</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #FF9800, #F57C00);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+    }
+
+    header {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px 0;
+        text-align: center;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 16px;
+    }
+
+    .filter-container {
+        margin: 20px;
+    }
+
+    .offer-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 80%;
+    }
+
+    .offer-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 10px;
+        width: 250px;
+        margin: 15px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    .offer-card h3 {
+        margin-bottom: 10px;
+    }
+
+    .offer-card p {
+        margin-bottom: 5px;
+    }
+
+    .btn-primary {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        width: 100%;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .btn-primary:hover {
+        background: #388E3C;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="logo">LocalDeals</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</header>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="filter-container">
+  <label for="categoryFilter">Filter by Category:</label>
+  <select id="categoryFilter">
+    <option value="all">All</option>
+    <option value="Food & Dining">Food & Dining</option>
+    <option value="Shopping">Shopping</option>
+    <option value="Travel">Travel</option>
+    <option value="Entertainment">Entertainment</option>
+  </select>
+</div>
+
+<div class="offer-container" id="offersList">
+  <!-- Offers will be dynamically added here -->
+</div>
+
+<script>
+  const offers = [
+      {
+          offerTitle: "50% Off on Burgers",
+          offerDescription: "Enjoy 50% off on all burgers at XYZ Restaurant!",
+          offerCategory: "Food & Dining",
+          discountPercentage: "50%",
+          startDate: "2025-04-10",
+          endDate: "2025-04-20"
+      },
+      {
+          offerTitle: "Flat 30% Off on Clothing",
+          offerDescription: "Get 30% off on all branded clothes at ABC Store!",
+          offerCategory: "Shopping",
+          discountPercentage: "30%",
+          startDate: "2025-04-15",
+          endDate: "2025-04-25"
+      },
+      {
+          offerTitle: "10% Off on Flight Tickets",
+          offerDescription: "Book your tickets now and save 10% on flights!",
+          offerCategory: "Travel",
+          discountPercentage: "10%",
+          startDate: "2025-04-12",
+          endDate: "2025-04-18"
+      }
+  ];
+
+  function displayOffers(filter) {
+      const offersList = document.getElementById("offersList");
+      offersList.innerHTML = "";
+
+      offers.forEach(offer => {
+          if (filter === "all" || offer.offerCategory === filter) {
+              const offerCard = document.createElement("div");
+              offerCard.className = "offer-card";
+              offerCard.innerHTML = `
+                  <h3>${offer.offerTitle}</h3>
+                  <p>${offer.offerDescription}</p>
+                  <p><strong>Category:</strong> ${offer.offerCategory}</p>
+                  <p><strong>Discount:</strong> ${offer.discountPercentage}</p>
+                  <p><strong>Valid from:</strong> ${offer.startDate} - ${offer.endDate}</p>
+                  <button class="btn-primary">Grab Deal</button>
+              `;
+              offersList.appendChild(offerCard);
+          }
+      });
+  }
+
+  document.getElementById("categoryFilter").addEventListener("change", function() {
+      displayOffers(this.value);
+  });
+
+  // Initial display of all offers
+  displayOffers("all");
+</script>
+
+</body>
+</html>

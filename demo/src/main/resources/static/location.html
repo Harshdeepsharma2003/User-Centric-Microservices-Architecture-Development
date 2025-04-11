@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalDeals - Set Your Location</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">LocalDeals</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="login.html">Login</a>
+                <a href="offers.html">Offers</a>
+                <a href="location.html" class="active">Location</a>
+            </div>
+        </div>
+    </div>
+</header>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- Location Section -->
+<section class="location-section">
+    <div class="container">
+        <h2>Set Your Preferred Location</h2>
+        <p>Choose your location settings to receive relevant offers based on your current position.</p>
+
+        <div class="location-controls">
+            <label for="locationRadius">Notification Radius:</label>
+            <select id="locationRadius">
+                <option value="5">Within 5 km</option>
+                <option value="10">Within 10 km</option>
+                <option value="20">Within 20 km</option>
+            </select>
+
+            <button id="updateLocation" class="btn btn-primary">Save Location Preferences</button>
+        </div>
+
+        <p id="locationStatus"></p>
+    </div>
+</section>
+
+<script src="offers.js"></script>
+</body>
+</html>
